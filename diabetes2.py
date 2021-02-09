@@ -124,7 +124,7 @@ print('\nStandard Deviation is:', stdev(lst_accu_stratified))
 
 
 
-#hhhhhhhh
+
 
 
 
