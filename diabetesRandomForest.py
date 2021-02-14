@@ -91,3 +91,10 @@ print('\nOverall Accuracy:',
       mean(lst_accu_stratified)*100, '%') 
 print('\nStandard Deviation is:', stdev(lst_accu_stratified)) 
     
+#train model using entire dataset to prep for deployment
+
+rf_final = RandomForestClassifier()
+
+rf_finalFit = rf_final.fit(x_scaled,y)
+
+rf_finalFit.decision_path(x_scaled)
