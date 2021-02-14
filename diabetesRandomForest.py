@@ -68,7 +68,7 @@ scaler = preprocessing.MinMaxScaler()
 x_scaled = scaler.fit_transform(x_df) 
 
 # create a classifier object
-rf_model = RandomForestClassifier()
+rf_model = RandomForestClassifier(random_state=40)
 
 # Create StratifiedKFold object. 
 skf = StratifiedKFold(n_splits=10, shuffle=True, random_state=1) 
@@ -90,6 +90,8 @@ print('\nMinimum Accuracy:',
 print('\nOverall Accuracy:', 
       mean(lst_accu_stratified)*100, '%') 
 print('\nStandard Deviation is:', stdev(lst_accu_stratified)) 
+
+
     
 #train model using entire dataset to prep for deployment
 
@@ -99,4 +101,34 @@ rf_finalFit = rf_final.fit(x_scaled,y)
 
 rf_finalFit.decision_path(x_scaled)
 #since model has been trained on scaled features, 
+
+#plot variable importance
+# credit: analyseup.com
+def plot_feature_importance(importance,names,model_type):
+    #Create arrays from feature importance and feature names
+    feature_importance = np.array(importance)
+    feature_names = np.array(names)
+    
+    #Create a DataFrame using a Dictionary
+    data={'feature_names':feature_names,'feature_importance':feature_importance}
+    fi_df = pd.DataFrame(data)
+    
+    #Sort the DataFrame in order decreasing feature importance
+    fi_df.sort_values(by=['feature_importance'], ascending=False,inplace=True)
+    
+    #Define size of bar plot
+    plt.figure(figsize=(10,8))
+    #Plot Searborn bar chart
+    sns.barplot(x=fi_df['feature_importance'], y=fi_df['feature_names'])
+    #Add chart labels
+    plt.title(model_type + 'FEATURE IMPORTANCE')
+    plt.xlabel('FEATURE IMPORTANCE')
+    plt.ylabel('FEATURE NAMES')
+
+# call plot function
+
+plot_feature_importance(rf_finalFit.feature_importances_,x_df.columns,'Random Forest')
+
+
+
 # remember to scale user input
