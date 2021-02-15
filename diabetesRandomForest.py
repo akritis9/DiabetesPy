@@ -97,9 +97,9 @@ print('\nStandard Deviation is:', stdev(lst_accu_stratified))
 
 rf_final = RandomForestClassifier()
 
-rf_finalFit = rf_final.fit(x_scaled,y)
+rf_final.fit(x_scaled,y)
 
-rf_finalFit.decision_path(x_scaled)
+#rf_finalFit.decision_path(x_scaled)
 #since model has been trained on scaled features, 
 
 #plot variable importance
@@ -127,7 +127,15 @@ def plot_feature_importance(importance,names,model_type):
 
 # call plot function
 
-plot_feature_importance(rf_finalFit.feature_importances_,x_df.columns,'Random Forest')
+plot_feature_importance(rf_final.feature_importances_,x_df.columns,'Random Forest')
+
+#create pickle file using serialization
+import pickle
+pickle_out = open("rf_final.pkl","wb")
+pickle.dump(rf_final, pickle_out)
+pickle_out.close()
+
+
 
 
 
